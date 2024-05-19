@@ -11,7 +11,7 @@ const { selectedWorker } = storeToRefs(store)
 </script>
 
 <template>
-    <div class="bg-purple-400 p-5 flex justify-between items-center">
+    <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 flex justify-between items-center">
         <div class="relative top-12">
             <img class="w-12 h-12 rounded-full ring-2 ring-white" :src="selectedWorker.picture" :alt="selectedWorker.name+' avatar'">
         </div>

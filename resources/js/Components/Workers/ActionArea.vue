@@ -16,6 +16,9 @@ function sendEmail() {
 </script>
 
 <template>
+    <div class="flex grid grid-flow-col justify-stretch mr-2">
+        <button class="rounded-lg flex justify-center hover:bg-gray-900 bg-gray-600 text-white mx-1 mb-3 w-full py-2 transition">Offer job</button>
+    </div>
     <div class="flex grid grid-flow-col justify-stretch pb-3">
         <button @click="downloadAsPDF()" class="p-5 bg-gray-200 rounded-lg mx-1 flex justify-center hover:bg-gray-300" title="Downlad profile as PDF">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
