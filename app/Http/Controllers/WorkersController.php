@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Worker;
+use App\Models\Note;
 
 class WorkersController extends Controller
 {
@@ -48,5 +49,31 @@ class WorkersController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Add note to worker
+     */
+    public function addNote(Request $request, Worker $worker){
+
+        try{
+
+            $noteData = [
+                'author' => auth()->user()->name,
+                'content' => $request->content
+            ];
+
+            $note = new Note();
+            $note->content = json_encode($noteData);
+            $worker->notes()->save($note);
+
+            return response()->json([ 
+                'success' => true, 
+                'data' => Worker::with(['notes' => fn ($query) => $query->orderBy('created_at', 'ASC')])->get()->all() 
+            ]);
+            
+        } catch (\Exception $e){
+            throw new \Exception($e->getMessage(),400);
+        }
     }
 }

@@ -45,20 +45,48 @@ export const useCompanyWorkersStore = defineStore('companyWorkers',{
       let workerid = this.selectedWorker.id;
       
       try{
-        const response = await axios.post('/notes/'+workerid, {
+        const response = await axios.post('/workers/'+workerid+'/notes', {
           'content': note
         })
 
-        const notes = await axios.get('/notes/'+workerid)
-
-        const updateActualWorker = response.data.data.find(item => {
+        const updateCurrentWorker = response.data.data.find(item => {
           return item.id == this.selectedWorker.id
         })
 
-        this.$patch({characters: response.data.data, selectedWorker: updateActualWorker })
+        this.$patch({characters: response.data.data, selectedWorker: updateCurrentWorker })
       } catch (error) {
         console.log(error)
       }
+    },
+    async editNote(id, content){
+      try{
+        const response = await axios.put('/notes/'+id, {
+          'content': content
+        })
+
+        const updateCurrentWorker = response.data.data.find(item => {
+          return item.id == this.selectedWorker.id
+        })
+
+        this.$patch({characters: response.data.data, selectedWorker: updateCurrentWorker })
+      } catch (error) {
+        console.log(error)
+      }
+
+    },
+    async destroyNote(id){
+      try{
+        const response = await axios.delete('/notes/'+id)
+
+        const updateCurrentWorker = response.data.data.find(item => {
+          return item.id == this.selectedWorker.id
+        })
+
+        this.$patch({characters: response.data.data, selectedWorker: updateCurrentWorker })
+      } catch (error) {
+        console.log(error)
+      }
+
     },
     fetchNotes: (userId) => axios.get('/notes/'+userId)
         .then((response) => {

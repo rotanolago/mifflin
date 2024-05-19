@@ -22,26 +22,8 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Worker $worker)
+    public function store(Request $request)
     {
-        try{
-
-            $noteData = [
-                'author' => auth()->user()->name,
-                'content' => $request->content
-            ];
-
-            $note = new Note();
-            $note->content = json_encode($noteData);
-            $worker->notes()->save($note);
-
-            return response()->json([ 
-                'success' => true, 
-                'data' => Worker::with(['notes' => fn ($query) => $query->orderBy('created_at', 'ASC')])->get()->all() 
-            ]);
-        } catch (\Exception $e){
-            throw new \Exception($e->getMessage(),400);
-        }
 
     }
 
@@ -58,7 +40,25 @@ class NotesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $noteData = [
+                'author' => auth()->user()->name,
+                'content' => $request->content
+            ];
+
+            $note = Note::findOrFail($id);
+            $note->content = json_encode($noteData);
+            $note->save();
+
+            return response()->json([ 
+                'success' => true,
+                'data' => Worker::with(['notes' => fn ($query) => $query->orderBy('created_at', 'ASC')])->get()->all() 
+            ]);
+
+        } catch (\Exception $e){
+            throw new \Exception($e->getMessage(),400);
+        }
+        
     }
 
     /**
@@ -66,6 +66,13 @@ class NotesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $note = Note::findOrFail($id);
+        $note->delete();
+        
+        return response()->json([ 
+            'success' => true,
+            'data' => Worker::with(['notes' => fn ($query) => $query->orderBy('created_at', 'ASC')])->get()->all() 
+        ]);
+
     }
 }

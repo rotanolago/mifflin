@@ -27,7 +27,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/workers', WorkersController::class);
+Route::post('/workers/{worker}/notes', [WorkersController::class, 'addNote']);
 
-Route::resource('/notes/{worker}/', NotesController::class);
+Route::resource('/notes', NotesController::class);
 
 require __DIR__.'/auth.php';
