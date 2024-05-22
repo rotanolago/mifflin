@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
+use App\HasNotes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Worker extends Model
 {
-    use HasFactory;
+    use HasFactory, HasNotes;
 
     public static function booted() {
         static::creating(function ($model) {
@@ -30,11 +30,4 @@ class Worker extends Model
         'email'
     ];
     
-    /**
-     * Get all of the workers's notes.
-     */
-    public function notes(): MorphMany
-    {
-        return $this->morphMany(Note::class, 'target');
-    }
 }

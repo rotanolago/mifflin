@@ -8,7 +8,7 @@ use App\Http\Controllers\NotesController;
 use App\Http\Controllers\WorkersController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Auth/Register', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
